@@ -97,6 +97,15 @@ public class Map_PathGen
         return false;
     }
 
+    public bool IsNearPath(int x, int y)
+    {
+        return !pathCells.Contains(new Vector2Int(x, y)) &&
+               !pathCells.Contains(new Vector2Int(x + 1, y)) &&
+               !pathCells.Contains(new Vector2Int(x - 1, y)) &&
+               !pathCells.Contains(new Vector2Int(x, y + 1)) &&
+               !pathCells.Contains(new Vector2Int(x, y - 1));
+    }
+
     public bool IsCellFree(int x , int y)
     {
         return !pathCells.Contains(new Vector2Int(x, y));

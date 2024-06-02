@@ -44,12 +44,23 @@ public class Map_GridManager : MonoBehaviour
 
     private IEnumerator LayPathCells(List<Vector2Int> pathCells)
     {
+        // Find the parent GameObject in the scene or create it if it doesn't exist
+        GameObject mapPath = GameObject.Find("MapPath");
+        if (mapPath == null)
+        {
+            mapPath = new GameObject("MapPath");
+        }
+
         foreach (Vector2Int cell in pathCells)
         {
-            int sideVal = pathGen.GetCellSideVal(cell.x , cell.y);
+            int sideVal = pathGen.GetCellSideVal(cell.x, cell.y);
             GameObject pathTile = pathCellObjects[sideVal].cellPrefab;
             GameObject pathTileCell = Instantiate(pathTile, new Vector3(cell.x, 0, cell.y), Quaternion.identity);
             pathTileCell.transform.Rotate(0f, pathCellObjects[sideVal].yRotation, 0f, Space.Self);
+            
+            // Set the instantiated object as a child of the mapPath
+            pathTileCell.transform.parent = mapPath.transform;
+            
             yield return new WaitForSeconds(pathPlaceSpeed);
         }
         yield return null;
@@ -57,14 +68,35 @@ public class Map_GridManager : MonoBehaviour
 
     private IEnumerator LayMapCells()
     {
+        GameObject mapParent = GameObject.Find("MapParent");
+        if (mapParent == null)
+        {
+            mapParent = new GameObject("MapParent");
+        }
+
         for (int y = gridHeight - 1; y >= 0; y--)
         {
             for (int x = 0; x < gridWidth; x++)
             {
                 if (pathGen.IsCellFree(x, y))
                 {
+                    GameObject instantiatedObject;
                     int randomAssetPick = Random.Range(0, sceneryCellObjects.Length);
-                    Instantiate(sceneryCellObjects[randomAssetPick].cellPrefab, new Vector3(x, 0f, y), Quaternion.identity);
+                    instantiatedObject = Instantiate(
+                         sceneryCellObjects[3].cellPrefab,
+                         new Vector3(x, 0f, y),
+                         Quaternion.identity
+                     );
+                    instantiatedObject.transform.parent = mapParent.transform;
+                    if (pathGen.IsNearPath(x, y))
+                    {
+                        instantiatedObject = Instantiate(
+                            sceneryCellObjects[randomAssetPick].cellPrefab,
+                            new Vector3(x, 0f, y),
+                            Quaternion.identity
+                        );
+                    }
+                    instantiatedObject.transform.parent = mapParent.transform;
                     yield return new WaitForSeconds(scenePlaceSpeed);
                 }
             }
