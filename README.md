@@ -1,3 +1,3 @@
-I started making a Tower Defense
+I started making a Tower Defense map generator with Unity
 
-![]([https://github.com/ahnvm/2D_Topdown/blob/main/Gifs/game.gif])
+![](https://github.com/ahnvm/Tower_Defense/blob/main/Gifs/game.gif)
