@@ -52,6 +52,51 @@ public class Map_PathGen
         return (pathCells);
     }
 
+    public bool GenerateCrossroad() 
+    {
+        for (int i = 0;  i < pathCells.Count; i++)
+        {
+            Vector2Int pathcell = pathCells[i];
+
+            bool isFree =
+                IsCellFree(pathcell.x, pathcell.y + 3) &&
+                IsCellFree(pathcell.x + 1, pathcell.y + 3) &&
+                IsCellFree(pathcell.x + 2, pathcell.y + 3) &&
+                IsCellFree(pathcell.x - 1, pathcell.y + 2) &&
+                IsCellFree(pathcell.x, pathcell.y + 2) &&
+                IsCellFree(pathcell.x + 1, pathcell.y + 2) &&
+                IsCellFree(pathcell.x + 2, pathcell.y + 2) &&
+                IsCellFree(pathcell.x + 3, pathcell.y + 2) &&
+                IsCellFree(pathcell.x - 1, pathcell.y + 1) &&
+                IsCellFree(pathcell.x, pathcell.y + 1) &&
+                IsCellFree(pathcell.x + 1, pathcell.y + 1) &&
+                IsCellFree(pathcell.x + 2, pathcell.y + 1) &&
+                IsCellFree(pathcell.x + 3, pathcell.y + 1) &&
+                IsCellFree(pathcell.x + 1, pathcell.y) &&
+                IsCellFree(pathcell.x + 2, pathcell.y) &&
+                IsCellFree(pathcell.x + 3, pathcell.y) &&
+                IsCellFree(pathcell.x + 1, pathcell.y - 1) &&
+                IsCellFree(pathcell.x + 2, pathcell.y - 1);
+
+            if (isFree) 
+            {
+                var newCells = new List<Vector2Int>
+                {
+                    new Vector2Int(pathcell.x + 1, pathcell.y),
+                    new Vector2Int(pathcell.x + 2, pathcell.y),
+                    new Vector2Int(pathcell.x + 2, pathcell.y + 1),
+                    new Vector2Int(pathcell.x + 2, pathcell.y + 2),
+                    new Vector2Int(pathcell.x, pathcell.y + 2),
+                    new Vector2Int(pathcell.x, pathcell.y + 2),
+                    new Vector2Int(pathcell.x + 2, pathcell.y)
+                };
+                pathCells.InsertRange(i + 1, newCells);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public bool IsCellFree(int x , int y)
     {
         return !pathCells.Contains(new Vector2Int(x, y));

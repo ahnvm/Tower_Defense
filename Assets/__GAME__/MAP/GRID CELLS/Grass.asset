@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Grass
   m_EditorClassIdentifier: 
   cellType: 0
-  cellPrefab: {fileID: 0}
+  cellPrefab: {fileID: 919132149155446097, guid: 335c5ffb4e56d434980c76df938a3406, type: 3}
   yRotation: 0

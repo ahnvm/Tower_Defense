@@ -11,6 +11,10 @@ public class Map_GridManager : MonoBehaviour
     private int gridHeight = 8;
     [SerializeField]
     private int minPathLength = 30;
+    [SerializeField]
+    private float pathPlaceSpeed = 0.2f;
+    [SerializeField]
+    private float scenePlaceSpeed = 0.1f;
 
     public Map_GridCellObj[] pathCellObjects;
     public Map_GridCellObj[] sceneryCellObjects;
@@ -46,7 +50,7 @@ public class Map_GridManager : MonoBehaviour
             GameObject pathTile = pathCellObjects[sideVal].cellPrefab;
             GameObject pathTileCell = Instantiate(pathTile, new Vector3(cell.x, 0, cell.y), Quaternion.identity);
             pathTileCell.transform.Rotate(0f, pathCellObjects[sideVal].yRotation, 0f, Space.Self);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(pathPlaceSpeed);
         }
         yield return null;
     }
@@ -61,8 +65,7 @@ public class Map_GridManager : MonoBehaviour
                 {
                     int randomAssetPick = Random.Range(0, sceneryCellObjects.Length);
                     Instantiate(sceneryCellObjects[randomAssetPick].cellPrefab, new Vector3(x, 0f, y), Quaternion.identity);
-                    yield return new WaitForSeconds(0.025f);
-                    
+                    yield return new WaitForSeconds(scenePlaceSpeed);
                 }
             }
         }
